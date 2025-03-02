@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity Todo.
+    -->
+    <changeSet id="20250302121336-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="todo_id"
+                                 baseTableName="rel_todo__tags"
+                                 constraintName="fk_rel_todo__tags__todo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="todo"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="tags_id"
+                                 baseTableName="rel_todo__tags"
+                                 constraintName="fk_rel_todo__tags__tags_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="creator_id"
+                                 baseTableName="todo"
+                                 constraintName="fk_todo__creator_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_attributes"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="todo"
+                                 constraintName="fk_todo__project_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="parent_id"
+                                 baseTableName="todo"
+                                 constraintName="fk_todo__parent_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="todo"
+                                 />
+    </changeSet>
+</databaseChangeLog>

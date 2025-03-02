@@ -1,0 +1,7 @@
+export enum BadgeType {
+  ACHIEVEMENT = 'ACHIEVEMENT',
+
+  MILESTONE = 'MILESTONE',
+
+  SPECIAL = 'SPECIAL',
+}
