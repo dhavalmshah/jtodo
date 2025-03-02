@@ -50,6 +50,32 @@ public class CacheConfiguration {
             createCache(cm, in.thedevguys.domain.User.class.getName());
             createCache(cm, in.thedevguys.domain.Authority.class.getName());
             createCache(cm, in.thedevguys.domain.User.class.getName() + ".authorities");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName());
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".comments");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".projectsOwneds");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".todosCreateds");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".notifications");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".attachments");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".assignedTodos");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".badges");
+            createCache(cm, in.thedevguys.domain.UserAttributes.class.getName() + ".projectMembers");
+            createCache(cm, in.thedevguys.domain.Project.class.getName());
+            createCache(cm, in.thedevguys.domain.Project.class.getName() + ".todos");
+            createCache(cm, in.thedevguys.domain.Project.class.getName() + ".members");
+            createCache(cm, in.thedevguys.domain.Todo.class.getName());
+            createCache(cm, in.thedevguys.domain.Todo.class.getName() + ".subTasks");
+            createCache(cm, in.thedevguys.domain.Todo.class.getName() + ".comments");
+            createCache(cm, in.thedevguys.domain.Todo.class.getName() + ".attachments");
+            createCache(cm, in.thedevguys.domain.Todo.class.getName() + ".notifications");
+            createCache(cm, in.thedevguys.domain.Todo.class.getName() + ".tags");
+            createCache(cm, in.thedevguys.domain.Todo.class.getName() + ".assignedUsers");
+            createCache(cm, in.thedevguys.domain.Tag.class.getName());
+            createCache(cm, in.thedevguys.domain.Tag.class.getName() + ".todos");
+            createCache(cm, in.thedevguys.domain.Attachment.class.getName());
+            createCache(cm, in.thedevguys.domain.Badge.class.getName());
+            createCache(cm, in.thedevguys.domain.Badge.class.getName() + ".users");
+            createCache(cm, in.thedevguys.domain.Comment.class.getName());
+            createCache(cm, in.thedevguys.domain.Notification.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

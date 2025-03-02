@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity UserAttributes.
+    -->
+    <changeSet id="20250302121334-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_attributes"
+                                 constraintName="fk_user_attributes__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="user_attributes_id"
+                                 baseTableName="rel_user_attributes__assigned_todos"
+                                 constraintName="fk_rel_user_attributes__assigned_todos__user_attributes_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_attributes"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="assigned_todos_id"
+                                 baseTableName="rel_user_attributes__assigned_todos"
+                                 constraintName="fk_rel_user_attributes__assigned_todos__assigned_todos_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="todo"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="user_attributes_id"
+                                 baseTableName="rel_user_attributes__badges"
+                                 constraintName="fk_rel_user_attributes__badges__user_attributes_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_attributes"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="badges_id"
+                                 baseTableName="rel_user_attributes__badges"
+                                 constraintName="fk_rel_user_attributes__badges__badges_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="badge"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="user_attributes_id"
+                                 baseTableName="rel_user_attributes__project_members"
+                                 constraintName="fk_rel_user_attributes__project_members__user_attributes_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_attributes"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="project_members_id"
+                                 baseTableName="rel_user_attributes__project_members"
+                                 constraintName="fk_rel_user_attributes__project_members__project_members_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"
+                                 />
+    </changeSet>
+</databaseChangeLog>

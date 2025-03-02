@@ -1,0 +1,49 @@
+{
+  "annotations": {
+    "changelogDate": "20250302121341"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "NotificationType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "TASK_ASSIGNED,TASK_STATUS_CHANGED,TASK_COMMENT_ADDED,TASK_DUE_SOON,MENTIONED"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "read",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Notification",
+  "relationships": [
+    {
+      "otherEntityName": "userAttributes",
+      "otherEntityRelationshipName": "notifications",
+      "relationshipName": "user",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "todo",
+      "otherEntityRelationshipName": "notifications",
+      "relationshipName": "task",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity UserAttributes.
+    -->
+    <changeSet id="20250302121334-1" author="jhipster">
+        <createTable tableName="user_attributes">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_user_attributes__email" />
+            </column>
+            <column name="email_verified" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="image" type="${blobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_at" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="level" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="points" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_user_attributes__user_id" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="user_attributes" columnName="email_verified" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="user_attributes" columnName="created_at" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="user_attributes" columnName="updated_at" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <changeSet id="20250302121334-1-relations" author="jhipster">
+
+        <createTable tableName="rel_user_attributes__assigned_todos">
+            <column name="assigned_todos_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_attributes_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_attributes_id, assigned_todos_id" tableName="rel_user_attributes__assigned_todos"/>
+
+        <createTable tableName="rel_user_attributes__badges">
+            <column name="badges_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_attributes_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_attributes_id, badges_id" tableName="rel_user_attributes__badges"/>
+
+        <createTable tableName="rel_user_attributes__project_members">
+            <column name="project_members_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_attributes_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_attributes_id, project_members_id" tableName="rel_user_attributes__project_members"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20250302121334-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/user_attributes.csv"
+                  separator=";"
+                  tableName="user_attributes"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="email" type="string"/>
+            <column name="email_verified" type="date"/>
+            <column name="image" type="blob"/>
+            <column name="image_content_type" type="string"/>
+            <column name="created_at" type="date"/>
+            <column name="updated_at" type="date"/>
+            <column name="password" type="string"/>
+            <column name="level" type="numeric"/>
+            <column name="points" type="numeric"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>
