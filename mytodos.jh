@@ -1,0 +1,131 @@
+// Enums for structured data
+enum TodoStatus {
+  TODO,
+  IN_PROGRESS,
+  DONE,
+  ARCHIVED
+}
+
+enum BadgeType {
+  ACHIEVEMENT,
+  MILESTONE,
+  SPECIAL
+}
+
+enum Priority {
+  LOW,
+  MEDIUM,
+  HIGH,
+  URGENT
+}
+
+enum NotificationType {
+  TASK_ASSIGNED,
+  TASK_STATUS_CHANGED,
+  TASK_COMMENT_ADDED,
+  TASK_DUE_SOON,
+  MENTIONED
+}
+
+entity UserAttributes {
+  name String
+  email String unique
+  emailVerified ZonedDateTime
+  image ImageBlob
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+  password String
+  level Long required
+  points Long required
+}
+
+entity Project {
+  name String required
+  description String
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+  color String
+  icon String
+}
+
+entity Todo {
+  title String required
+  description String
+  dueDate ZonedDateTime
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+  status TodoStatus required
+  priority Priority required
+  pointsAwarded Long
+}
+
+entity Tag {
+  name String required
+  color String required
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+}
+
+entity Attachment {
+  url String required
+  type String required
+  size Long required
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+  name String required
+}
+
+entity Badge {
+  name String required
+  description String required
+  image String required
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+  type BadgeType required
+  criteria String required
+}
+
+entity Comment {
+  content String required
+  createdAt ZonedDateTime required
+  updatedAt ZonedDateTime required
+}
+
+entity Notification {
+  type NotificationType required
+  content String required
+  read Boolean required
+  createdAt ZonedDateTime required
+}
+
+// Relationships between entities
+relationship OneToMany {
+  UserAttributes{comments} to Comment{user}
+  UserAttributes{projectsOwned} to Project{owner}
+  UserAttributes{todosCreated} to Todo{creator}
+  UserAttributes{notifications} to Notification{user}
+  UserAttributes{attachments} to Attachment{uploader}
+  Project{todos} to Todo{project}
+  Todo{subTasks} to Todo{parent}
+  Todo{comments} to Comment{todo}
+  Todo{attachments} to Attachment{todo}
+  Todo{notifications} to Notification{task}
+}
+
+relationship ManyToMany {
+  UserAttributes{assignedTodos} to Todo{assignedUsers}
+  UserAttributes{badges} to Badge{users}
+  UserAttributes{projectMembers} to Project{members}
+  Todo{tags} to Tag{todos}
+}
+
+relationship OneToOne {
+  UserAttributes{user} to User{details} with builtInEntity
+}
+
+
+service * with serviceClass
+dto * with mapstruct
+paginate Todo with infinite-scroll
+
+
