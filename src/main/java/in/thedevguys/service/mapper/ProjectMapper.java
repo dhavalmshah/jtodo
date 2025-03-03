@@ -1,9 +1,9 @@
 package in.thedevguys.service.mapper;
 
 import in.thedevguys.domain.Project;
-import in.thedevguys.domain.UserAttributes;
+import in.thedevguys.domain.User;
+import in.thedevguys.service.dto.AdminUserDTO;
 import in.thedevguys.service.dto.ProjectDTO;
-import in.thedevguys.service.dto.UserAttributesDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.*;
@@ -13,21 +13,21 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
-    @Mapping(target = "owner", source = "owner", qualifiedByName = "userAttributesId")
-    @Mapping(target = "members", source = "members", qualifiedByName = "userAttributesIdSet")
+    @Mapping(target = "owner", source = "owner", qualifiedByName = "userId")
+    @Mapping(target = "members", source = "members", qualifiedByName = "userIdSet")
     ProjectDTO toDto(Project s);
 
     @Mapping(target = "members", ignore = true)
     @Mapping(target = "removeMembers", ignore = true)
     Project toEntity(ProjectDTO projectDTO);
 
-    @Named("userAttributesId")
+    @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    UserAttributesDTO toDtoUserAttributesId(UserAttributes userAttributes);
+    AdminUserDTO toDtoUserId(User user);
 
-    @Named("userAttributesIdSet")
-    default Set<UserAttributesDTO> toDtoUserAttributesIdSet(Set<UserAttributes> userAttributes) {
-        return userAttributes.stream().map(this::toDtoUserAttributesId).collect(Collectors.toSet());
+    @Named("userIdSet")
+    default Set<AdminUserDTO> toDtoUserIdSet(Set<User> users) {
+        return users.stream().map(this::toDtoUserId).collect(Collectors.toSet());
     }
 }

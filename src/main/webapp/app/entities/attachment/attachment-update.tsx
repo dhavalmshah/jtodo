@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { getEntities as getUserAttributes } from 'app/entities/user-attributes/user-attributes.reducer';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { getEntities as getTodos } from 'app/entities/todo/todo.reducer';
 import { createEntity, getEntity, reset, updateEntity } from './attachment.reducer';
 
@@ -19,7 +19,7 @@ export const AttachmentUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const userAttributes = useAppSelector(state => state.userAttributes.entities);
+  const users = useAppSelector(state => state.userManagement.users);
   const todos = useAppSelector(state => state.todo.entities);
   const attachmentEntity = useAppSelector(state => state.attachment.entity);
   const loading = useAppSelector(state => state.attachment.loading);
@@ -37,7 +37,7 @@ export const AttachmentUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getUserAttributes({}));
+    dispatch(getUsers({}));
     dispatch(getTodos({}));
   }, []);
 
@@ -60,7 +60,7 @@ export const AttachmentUpdate = () => {
     const entity = {
       ...attachmentEntity,
       ...values,
-      uploader: userAttributes.find(it => it.id.toString() === values.uploader?.toString()),
+      uploader: users.find(it => it.id.toString() === values.uploader?.toString()),
       todo: todos.find(it => it.id.toString() === values.todo?.toString()),
     };
 
@@ -166,10 +166,10 @@ export const AttachmentUpdate = () => {
               />
               <ValidatedField id="attachment-uploader" name="uploader" data-cy="uploader" label="Uploader" type="select">
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}

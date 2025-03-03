@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { getEntities as getUserAttributes } from 'app/entities/user-attributes/user-attributes.reducer';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { getEntities as getTodos } from 'app/entities/todo/todo.reducer';
 import { NotificationType } from 'app/shared/model/enumerations/notification-type.model';
 import { createEntity, getEntity, reset, updateEntity } from './notification.reducer';
@@ -20,7 +20,7 @@ export const NotificationUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const userAttributes = useAppSelector(state => state.userAttributes.entities);
+  const users = useAppSelector(state => state.userManagement.users);
   const todos = useAppSelector(state => state.todo.entities);
   const notificationEntity = useAppSelector(state => state.notification.entity);
   const loading = useAppSelector(state => state.notification.loading);
@@ -39,7 +39,7 @@ export const NotificationUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getUserAttributes({}));
+    dispatch(getUsers({}));
     dispatch(getTodos({}));
   }, []);
 
@@ -54,11 +54,12 @@ export const NotificationUpdate = () => {
       values.id = Number(values.id);
     }
     values.createdAt = convertDateTimeToServer(values.createdAt);
+    values.updatedAt = convertDateTimeToServer(values.updatedAt);
 
     const entity = {
       ...notificationEntity,
       ...values,
-      user: userAttributes.find(it => it.id.toString() === values.user?.toString()),
+      user: users.find(it => it.id.toString() === values.user?.toString()),
       task: todos.find(it => it.id.toString() === values.task?.toString()),
     };
 
@@ -129,10 +130,10 @@ export const NotificationUpdate = () => {
               />
               <ValidatedField id="notification-user" name="user" data-cy="user" label="User" type="select">
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}

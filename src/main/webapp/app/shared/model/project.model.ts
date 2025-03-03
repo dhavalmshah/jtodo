@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
-import { IUserAttributes } from 'app/shared/model/user-attributes.model';
+import { IUser } from 'app/shared/model/user.model';
+import { ITodo } from 'app/shared/model/todo.model';
 
 export interface IProject {
   id?: number;
   name?: string;
-  description?: string | null;
+  description?: string;
   createdAt?: dayjs.Dayjs;
   updatedAt?: dayjs.Dayjs;
-  color?: string | null;
-  icon?: string | null;
-  owner?: IUserAttributes | null;
-  members?: IUserAttributes[] | null;
+  owner?: IUser | null;
+  members?: IUser[] | null;
+  todos?: ITodo[] | null;
 }
 
 export const defaultValue: Readonly<IProject> = {};

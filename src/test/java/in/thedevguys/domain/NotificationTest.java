@@ -2,7 +2,7 @@ package in.thedevguys.domain;
 
 import static in.thedevguys.domain.NotificationTestSamples.*;
 import static in.thedevguys.domain.TodoTestSamples.*;
-import static in.thedevguys.domain.UserAttributesTestSamples.*;
+import static in.thedevguys.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import in.thedevguys.web.rest.TestUtil;
@@ -27,7 +27,7 @@ class NotificationTest {
     @Test
     void userTest() {
         Notification notification = getNotificationRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         notification.setUser(userAttributesBack);
         assertThat(notification.getUser()).isEqualTo(userAttributesBack);

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { IUserAttributes } from 'app/shared/model/user-attributes.model';
+import { IUser } from 'app/shared/model/user.model';
 import { BadgeType } from 'app/shared/model/enumerations/badge-type.model';
 
 export interface IBadge {
@@ -11,7 +11,7 @@ export interface IBadge {
   updatedAt?: dayjs.Dayjs;
   type?: keyof typeof BadgeType;
   criteria?: string;
-  users?: IUserAttributes[] | null;
+  users?: IUser[] | null;
 }
 
 export const defaultValue: Readonly<IBadge> = {};

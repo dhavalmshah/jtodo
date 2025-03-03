@@ -1,4 +1,3 @@
-import userAttributes from 'app/entities/user-attributes/user-attributes.reducer';
 import project from 'app/entities/project/project.reducer';
 import todo from 'app/entities/todo/todo.reducer';
 import tag from 'app/entities/tag/tag.reducer';
@@ -9,7 +8,6 @@ import notification from 'app/entities/notification/notification.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
-  userAttributes,
   project,
   todo,
   tag,

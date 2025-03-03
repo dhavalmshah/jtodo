@@ -57,6 +57,11 @@ public class UserMapper {
             user.setLastModifiedDate(userDTO.getLastModifiedDate());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            user.setEmailVerified(userDTO.getEmailVerified());
+            user.setProfileImage(userDTO.getProfileImage());
+            user.setProfileImageContentType(userDTO.getProfileImageContentType());
+            user.setLevel(userDTO.getLevel());
+            user.setPoints(userDTO.getPoints());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;
@@ -146,5 +151,27 @@ public class UserMapper {
         }
 
         return userSet;
+    }
+
+    @Named("fullUser")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "login", source = "login")
+    @Mapping(target = "firstName", source = "firstName")
+    @Mapping(target = "lastName", source = "lastName")
+    @Mapping(target = "email", source = "email")
+    @Mapping(target = "activated", source = "activated")
+    @Mapping(target = "langKey", source = "langKey")
+    @Mapping(target = "imageUrl", source = "imageUrl")
+    @Mapping(target = "emailVerified", source = "emailVerified")
+    @Mapping(target = "profileImage", source = "profileImage")
+    @Mapping(target = "profileImageContentType", source = "profileImageContentType")
+    @Mapping(target = "level", source = "level")
+    @Mapping(target = "points", source = "points")
+    public UserDTO toDtoFullUser(User user) {
+        if (user == null) {
+            return null;
+        }
+        return userToUserDTO(user);
     }
 }

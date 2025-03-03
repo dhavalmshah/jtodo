@@ -2,10 +2,10 @@ package in.thedevguys.service.mapper;
 
 import in.thedevguys.domain.Notification;
 import in.thedevguys.domain.Todo;
-import in.thedevguys.domain.UserAttributes;
+import in.thedevguys.domain.User;
+import in.thedevguys.service.dto.AdminUserDTO;
 import in.thedevguys.service.dto.NotificationDTO;
 import in.thedevguys.service.dto.TodoDTO;
-import in.thedevguys.service.dto.UserAttributesDTO;
 import org.mapstruct.*;
 
 /**
@@ -13,14 +13,14 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface NotificationMapper extends EntityMapper<NotificationDTO, Notification> {
-    @Mapping(target = "user", source = "user", qualifiedByName = "userAttributesId")
+    @Mapping(target = "user", source = "user", qualifiedByName = "userId")
     @Mapping(target = "task", source = "task", qualifiedByName = "todoId")
     NotificationDTO toDto(Notification s);
 
-    @Named("userAttributesId")
+    @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    UserAttributesDTO toDtoUserAttributesId(UserAttributes userAttributes);
+    AdminUserDTO toDtoUserId(User user);
 
     @Named("todoId")
     @BeanMapping(ignoreByDefault = true)

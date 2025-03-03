@@ -1,7 +1,7 @@
 package in.thedevguys.domain;
 
 import static in.thedevguys.domain.BadgeTestSamples.*;
-import static in.thedevguys.domain.UserAttributesTestSamples.*;
+import static in.thedevguys.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import in.thedevguys.web.rest.TestUtil;
@@ -28,7 +28,7 @@ class BadgeTest {
     @Test
     void usersTest() {
         Badge badge = getBadgeRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         badge.addUsers(userAttributesBack);
         assertThat(badge.getUsers()).containsOnly(userAttributesBack);

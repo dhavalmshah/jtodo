@@ -59,10 +59,10 @@ public class Project implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -71,16 +71,16 @@ public class Project implements Serializable {
         },
         allowSetters = true
     )
-    private UserAttributes owner;
+    private User owner;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "projectMembers")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -89,7 +89,7 @@ public class Project implements Serializable {
         },
         allowSetters = true
     )
-    private Set<UserAttributes> members = new HashSet<>();
+    private Set<User> members = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -215,47 +215,47 @@ public class Project implements Serializable {
         return this;
     }
 
-    public UserAttributes getOwner() {
+    public User getOwner() {
         return this.owner;
     }
 
-    public void setOwner(UserAttributes userAttributes) {
-        this.owner = userAttributes;
+    public void setOwner(User user) {
+        this.owner = user;
     }
 
-    public Project owner(UserAttributes userAttributes) {
-        this.setOwner(userAttributes);
+    public Project owner(User user) {
+        this.setOwner(user);
         return this;
     }
 
-    public Set<UserAttributes> getMembers() {
+    public Set<User> getMembers() {
         return this.members;
     }
 
-    public void setMembers(Set<UserAttributes> userAttributes) {
+    public void setMembers(Set<User> users) {
         if (this.members != null) {
             this.members.forEach(i -> i.removeProjectMembers(this));
         }
-        if (userAttributes != null) {
-            userAttributes.forEach(i -> i.addProjectMembers(this));
+        if (users != null) {
+            users.forEach(i -> i.addProjectMembers(this));
         }
-        this.members = userAttributes;
+        this.members = users;
     }
 
-    public Project members(Set<UserAttributes> userAttributes) {
-        this.setMembers(userAttributes);
+    public Project members(Set<User> users) {
+        this.setMembers(users);
         return this;
     }
 
-    public Project addMembers(UserAttributes userAttributes) {
-        this.members.add(userAttributes);
-        userAttributes.getProjectMembers().add(this);
+    public Project addMembers(User user) {
+        this.members.add(user);
+        user.getProjectMembers().add(this);
         return this;
     }
 
-    public Project removeMembers(UserAttributes userAttributes) {
-        this.members.remove(userAttributes);
-        userAttributes.getProjectMembers().remove(this);
+    public Project removeMembers(User user) {
+        this.members.remove(user);
+        user.getProjectMembers().remove(this);
         return this;
     }
 

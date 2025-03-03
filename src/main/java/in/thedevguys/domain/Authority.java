@@ -33,6 +33,14 @@ public class Authority implements Serializable, Persistable<String> {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
+    public Authority() {
+        // Empty constructor needed for Jackson.
+    }
+
+    public Authority(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return this.name;
     }

@@ -2,7 +2,7 @@ package in.thedevguys.domain;
 
 import static in.thedevguys.domain.AttachmentTestSamples.*;
 import static in.thedevguys.domain.TodoTestSamples.*;
-import static in.thedevguys.domain.UserAttributesTestSamples.*;
+import static in.thedevguys.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import in.thedevguys.web.rest.TestUtil;
@@ -27,7 +27,7 @@ class AttachmentTest {
     @Test
     void uploaderTest() {
         Attachment attachment = getAttachmentRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         attachment.setUploader(userAttributesBack);
         assertThat(attachment.getUploader()).isEqualTo(userAttributesBack);

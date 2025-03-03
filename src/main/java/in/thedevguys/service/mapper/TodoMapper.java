@@ -3,11 +3,11 @@ package in.thedevguys.service.mapper;
 import in.thedevguys.domain.Project;
 import in.thedevguys.domain.Tag;
 import in.thedevguys.domain.Todo;
-import in.thedevguys.domain.UserAttributes;
+import in.thedevguys.domain.User;
 import in.thedevguys.service.dto.ProjectDTO;
 import in.thedevguys.service.dto.TagDTO;
 import in.thedevguys.service.dto.TodoDTO;
-import in.thedevguys.service.dto.UserAttributesDTO;
+import in.thedevguys.service.dto.UserDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.*;
@@ -18,10 +18,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface TodoMapper extends EntityMapper<TodoDTO, Todo> {
     @Mapping(target = "tags", source = "tags", qualifiedByName = "tagIdSet")
-    @Mapping(target = "creator", source = "creator", qualifiedByName = "userAttributesId")
+    @Mapping(target = "creator", source = "creator", qualifiedByName = "userId")
     @Mapping(target = "project", source = "project", qualifiedByName = "projectId")
     @Mapping(target = "parent", source = "parent", qualifiedByName = "todoId")
-    @Mapping(target = "assignedUsers", source = "assignedUsers", qualifiedByName = "userAttributesIdSet")
+    @Mapping(target = "assignedUsers", source = "assignedUsers", qualifiedByName = "userIdSet")
     TodoDTO toDto(Todo s);
 
     @Mapping(target = "removeTags", ignore = true)
@@ -44,14 +44,14 @@ public interface TodoMapper extends EntityMapper<TodoDTO, Todo> {
         return tag.stream().map(this::toDtoTagId).collect(Collectors.toSet());
     }
 
-    @Named("userAttributesId")
+    @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    UserAttributesDTO toDtoUserAttributesId(UserAttributes userAttributes);
+    UserDTO toDtoUserId(User user);
 
-    @Named("userAttributesIdSet")
-    default Set<UserAttributesDTO> toDtoUserAttributesIdSet(Set<UserAttributes> userAttributes) {
-        return userAttributes.stream().map(this::toDtoUserAttributesId).collect(Collectors.toSet());
+    @Named("userIdSet")
+    default Set<UserDTO> toDtoUserIdSet(Set<User> users) {
+        return users.stream().map(this::toDtoUserId).collect(Collectors.toSet());
     }
 
     @Named("projectId")

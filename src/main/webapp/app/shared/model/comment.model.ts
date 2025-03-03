@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { IUserAttributes } from 'app/shared/model/user-attributes.model';
+import { IUser } from 'app/shared/model/user.model';
 import { ITodo } from 'app/shared/model/todo.model';
 
 export interface IComment {
@@ -7,7 +7,7 @@ export interface IComment {
   content?: string;
   createdAt?: dayjs.Dayjs;
   updatedAt?: dayjs.Dayjs;
-  user?: IUserAttributes | null;
+  user?: IUser | null;
   todo?: ITodo | null;
 }
 

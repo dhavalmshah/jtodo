@@ -7,7 +7,7 @@ import static in.thedevguys.domain.ProjectTestSamples.*;
 import static in.thedevguys.domain.TagTestSamples.*;
 import static in.thedevguys.domain.TodoTestSamples.*;
 import static in.thedevguys.domain.TodoTestSamples.*;
-import static in.thedevguys.domain.UserAttributesTestSamples.*;
+import static in.thedevguys.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import in.thedevguys.web.rest.TestUtil;
@@ -140,7 +140,7 @@ class TodoTest {
     @Test
     void creatorTest() {
         Todo todo = getTodoRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         todo.setCreator(userAttributesBack);
         assertThat(todo.getCreator()).isEqualTo(userAttributesBack);
@@ -176,7 +176,7 @@ class TodoTest {
     @Test
     void assignedUsersTest() {
         Todo todo = getTodoRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         todo.addAssignedUsers(userAttributesBack);
         assertThat(todo.getAssignedUsers()).containsOnly(userAttributesBack);

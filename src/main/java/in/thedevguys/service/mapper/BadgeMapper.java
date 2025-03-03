@@ -1,9 +1,9 @@
 package in.thedevguys.service.mapper;
 
 import in.thedevguys.domain.Badge;
-import in.thedevguys.domain.UserAttributes;
+import in.thedevguys.domain.User;
+import in.thedevguys.service.dto.AdminUserDTO;
 import in.thedevguys.service.dto.BadgeDTO;
-import in.thedevguys.service.dto.UserAttributesDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.*;
@@ -13,20 +13,20 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface BadgeMapper extends EntityMapper<BadgeDTO, Badge> {
-    @Mapping(target = "users", source = "users", qualifiedByName = "userAttributesIdSet")
+    @Mapping(target = "users", source = "users", qualifiedByName = "userIdSet")
     BadgeDTO toDto(Badge s);
 
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "removeUsers", ignore = true)
     Badge toEntity(BadgeDTO badgeDTO);
 
-    @Named("userAttributesId")
+    @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    UserAttributesDTO toDtoUserAttributesId(UserAttributes userAttributes);
+    AdminUserDTO toDtoUserId(User user);
 
-    @Named("userAttributesIdSet")
-    default Set<UserAttributesDTO> toDtoUserAttributesIdSet(Set<UserAttributes> userAttributes) {
-        return userAttributes.stream().map(this::toDtoUserAttributesId).collect(Collectors.toSet());
+    @Named("userIdSet")
+    default Set<AdminUserDTO> toDtoUserIdSet(Set<User> users) {
+        return users.stream().map(this::toDtoUserId).collect(Collectors.toSet());
     }
 }

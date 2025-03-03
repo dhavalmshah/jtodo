@@ -22,7 +22,7 @@ public class CommentDTO implements Serializable {
     @NotNull
     private ZonedDateTime updatedAt;
 
-    private UserAttributesDTO user;
+    private AdminUserDTO user;
 
     private TodoDTO todo;
 
@@ -58,11 +58,11 @@ public class CommentDTO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public UserAttributesDTO getUser() {
+    public AdminUserDTO getUser() {
         return user;
     }
 
-    public void setUser(UserAttributesDTO user) {
+    public void setUser(AdminUserDTO user) {
         this.user = user;
     }
 

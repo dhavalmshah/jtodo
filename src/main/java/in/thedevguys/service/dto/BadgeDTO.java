@@ -37,7 +37,7 @@ public class BadgeDTO implements Serializable {
     @NotNull
     private String criteria;
 
-    private Set<UserAttributesDTO> users = new HashSet<>();
+    private Set<AdminUserDTO> users = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -103,11 +103,11 @@ public class BadgeDTO implements Serializable {
         this.criteria = criteria;
     }
 
-    public Set<UserAttributesDTO> getUsers() {
+    public Set<AdminUserDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<UserAttributesDTO> users) {
+    public void setUsers(Set<AdminUserDTO> users) {
         this.users = users;
     }
 

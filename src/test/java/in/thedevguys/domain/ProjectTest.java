@@ -2,7 +2,7 @@ package in.thedevguys.domain;
 
 import static in.thedevguys.domain.ProjectTestSamples.*;
 import static in.thedevguys.domain.TodoTestSamples.*;
-import static in.thedevguys.domain.UserAttributesTestSamples.*;
+import static in.thedevguys.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import in.thedevguys.web.rest.TestUtil;
@@ -51,7 +51,7 @@ class ProjectTest {
     @Test
     void ownerTest() {
         Project project = getProjectRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         project.setOwner(userAttributesBack);
         assertThat(project.getOwner()).isEqualTo(userAttributesBack);
@@ -63,7 +63,7 @@ class ProjectTest {
     @Test
     void membersTest() {
         Project project = getProjectRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         project.addMembers(userAttributesBack);
         assertThat(project.getMembers()).containsOnly(userAttributesBack);

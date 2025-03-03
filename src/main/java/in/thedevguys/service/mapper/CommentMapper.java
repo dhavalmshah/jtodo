@@ -2,10 +2,10 @@ package in.thedevguys.service.mapper;
 
 import in.thedevguys.domain.Comment;
 import in.thedevguys.domain.Todo;
-import in.thedevguys.domain.UserAttributes;
+import in.thedevguys.domain.User;
+import in.thedevguys.service.dto.AdminUserDTO;
 import in.thedevguys.service.dto.CommentDTO;
 import in.thedevguys.service.dto.TodoDTO;
-import in.thedevguys.service.dto.UserAttributesDTO;
 import org.mapstruct.*;
 
 /**
@@ -13,14 +13,14 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface CommentMapper extends EntityMapper<CommentDTO, Comment> {
-    @Mapping(target = "user", source = "user", qualifiedByName = "userAttributesId")
+    @Mapping(target = "user", source = "user", qualifiedByName = "userId")
     @Mapping(target = "todo", source = "todo", qualifiedByName = "todoId")
     CommentDTO toDto(Comment s);
 
-    @Named("userAttributesId")
+    @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    UserAttributesDTO toDtoUserAttributesId(UserAttributes userAttributes);
+    AdminUserDTO toDtoUserId(User user);
 
     @Named("todoId")
     @BeanMapping(ignoreByDefault = true)

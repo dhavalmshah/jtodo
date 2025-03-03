@@ -8,7 +8,7 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { getEntities as getUserAttributes } from 'app/entities/user-attributes/user-attributes.reducer';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { BadgeType } from 'app/shared/model/enumerations/badge-type.model';
 import { createEntity, getEntity, reset, updateEntity } from './badge.reducer';
 
@@ -20,7 +20,7 @@ export const BadgeUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const userAttributes = useAppSelector(state => state.userAttributes.entities);
+  const users = useAppSelector(state => state.userManagement.users);
   const badgeEntity = useAppSelector(state => state.badge.entity);
   const loading = useAppSelector(state => state.badge.loading);
   const updating = useAppSelector(state => state.badge.updating);
@@ -38,7 +38,7 @@ export const BadgeUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getUserAttributes({}));
+    dispatch(getUsers({}));
   }, []);
 
   useEffect(() => {
@@ -168,10 +168,10 @@ export const BadgeUpdate = () => {
               />
               <ValidatedField label="Users" id="badge-users" data-cy="users" type="select" multiple name="users">
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}

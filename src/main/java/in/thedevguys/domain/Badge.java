@@ -61,10 +61,10 @@ public class Badge implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -73,7 +73,7 @@ public class Badge implements Serializable {
         },
         allowSetters = true
     )
-    private Set<UserAttributes> users = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -181,34 +181,34 @@ public class Badge implements Serializable {
         this.criteria = criteria;
     }
 
-    public Set<UserAttributes> getUsers() {
+    public Set<User> getUsers() {
         return this.users;
     }
 
-    public void setUsers(Set<UserAttributes> userAttributes) {
+    public void setUsers(Set<User> users) {
         if (this.users != null) {
             this.users.forEach(i -> i.removeBadges(this));
         }
-        if (userAttributes != null) {
-            userAttributes.forEach(i -> i.addBadges(this));
+        if (users != null) {
+            users.forEach(i -> i.addBadges(this));
         }
-        this.users = userAttributes;
+        this.users = users;
     }
 
-    public Badge users(Set<UserAttributes> userAttributes) {
-        this.setUsers(userAttributes);
+    public Badge users(Set<User> users) {
+        this.setUsers(users);
         return this;
     }
 
-    public Badge addUsers(UserAttributes userAttributes) {
-        this.users.add(userAttributes);
-        userAttributes.getBadges().add(this);
+    public Badge addUsers(User user) {
+        this.users.add(user);
+        user.getBadges().add(this);
         return this;
     }
 
-    public Badge removeUsers(UserAttributes userAttributes) {
-        this.users.remove(userAttributes);
-        userAttributes.getBadges().remove(this);
+    public Badge removeUsers(User user) {
+        this.users.remove(user);
+        user.getBadges().remove(this);
         return this;
     }
 

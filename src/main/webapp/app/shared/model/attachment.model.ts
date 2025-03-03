@@ -1,16 +1,15 @@
 import dayjs from 'dayjs';
-import { IUserAttributes } from 'app/shared/model/user-attributes.model';
+import { IUser } from 'app/shared/model/user.model';
 import { ITodo } from 'app/shared/model/todo.model';
 
 export interface IAttachment {
   id?: number;
-  url?: string;
-  type?: string;
-  size?: number;
+  name?: string;
+  file?: string;
+  fileContentType?: string;
   createdAt?: dayjs.Dayjs;
   updatedAt?: dayjs.Dayjs;
-  name?: string;
-  uploader?: IUserAttributes | null;
+  uploader?: IUser | null;
   todo?: ITodo | null;
 }
 

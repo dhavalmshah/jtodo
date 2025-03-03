@@ -40,13 +40,13 @@ public class TodoDTO implements Serializable {
 
     private Set<TagDTO> tags = new HashSet<>();
 
-    private UserAttributesDTO creator;
+    private AdminUserDTO creator;
 
     private ProjectDTO project;
 
     private TodoDTO parent;
 
-    private Set<UserAttributesDTO> assignedUsers = new HashSet<>();
+    private Set<AdminUserDTO> assignedUsers = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -128,11 +128,11 @@ public class TodoDTO implements Serializable {
         this.tags = tags;
     }
 
-    public UserAttributesDTO getCreator() {
+    public AdminUserDTO getCreator() {
         return creator;
     }
 
-    public void setCreator(UserAttributesDTO creator) {
+    public void setCreator(AdminUserDTO creator) {
         this.creator = creator;
     }
 
@@ -152,11 +152,11 @@ public class TodoDTO implements Serializable {
         this.parent = parent;
     }
 
-    public Set<UserAttributesDTO> getAssignedUsers() {
+    public Set<AdminUserDTO> getAssignedUsers() {
         return assignedUsers;
     }
 
-    public void setAssignedUsers(Set<UserAttributesDTO> assignedUsers) {
+    public void setAssignedUsers(Set<AdminUserDTO> assignedUsers) {
         this.assignedUsers = assignedUsers;
     }
 

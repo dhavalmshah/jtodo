@@ -2,10 +2,10 @@ package in.thedevguys.service.mapper;
 
 import in.thedevguys.domain.Attachment;
 import in.thedevguys.domain.Todo;
-import in.thedevguys.domain.UserAttributes;
+import in.thedevguys.domain.User;
 import in.thedevguys.service.dto.AttachmentDTO;
 import in.thedevguys.service.dto.TodoDTO;
-import in.thedevguys.service.dto.UserAttributesDTO;
+import in.thedevguys.service.dto.UserDTO;
 import org.mapstruct.*;
 
 /**
@@ -13,14 +13,14 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface AttachmentMapper extends EntityMapper<AttachmentDTO, Attachment> {
-    @Mapping(target = "uploader", source = "uploader", qualifiedByName = "userAttributesId")
+    @Mapping(target = "uploader", source = "uploader", qualifiedByName = "userId")
     @Mapping(target = "todo", source = "todo", qualifiedByName = "todoId")
     AttachmentDTO toDto(Attachment s);
 
-    @Named("userAttributesId")
+    @Named("userId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    UserAttributesDTO toDtoUserAttributesId(UserAttributes userAttributes);
+    UserDTO toDtoUserId(User user);
 
     @Named("todoId")
     @BeanMapping(ignoreByDefault = true)

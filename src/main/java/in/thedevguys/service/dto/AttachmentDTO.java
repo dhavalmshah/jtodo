@@ -31,7 +31,7 @@ public class AttachmentDTO implements Serializable {
     @NotNull
     private String name;
 
-    private UserAttributesDTO uploader;
+    private UserDTO uploader;
 
     private TodoDTO todo;
 
@@ -91,11 +91,11 @@ public class AttachmentDTO implements Serializable {
         this.name = name;
     }
 
-    public UserAttributesDTO getUploader() {
+    public UserDTO getUploader() {
         return uploader;
     }
 
-    public void setUploader(UserAttributesDTO uploader) {
+    public void setUploader(UserDTO uploader) {
         this.uploader = uploader;
     }
 

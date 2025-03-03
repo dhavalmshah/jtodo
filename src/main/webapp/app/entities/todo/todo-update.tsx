@@ -9,12 +9,12 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities as getTags } from 'app/entities/tag/tag.reducer';
-import { getEntities as getUserAttributes } from 'app/entities/user-attributes/user-attributes.reducer';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { getEntities as getProjects } from 'app/entities/project/project.reducer';
 import { getEntities as getTodos } from 'app/entities/todo/todo.reducer';
 import { TodoStatus } from 'app/shared/model/enumerations/todo-status.model';
 import { Priority } from 'app/shared/model/enumerations/priority.model';
-import { createEntity, getEntity, updateEntity } from './todo.reducer';
+import { createEntity, getEntity, reset, updateEntity } from './todo.reducer';
 
 export const TodoUpdate = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ export const TodoUpdate = () => {
   const isNew = id === undefined;
 
   const tags = useAppSelector(state => state.tag.entities);
-  const userAttributes = useAppSelector(state => state.userAttributes.entities);
+  const users = useAppSelector(state => state.userManagement.users);
   const projects = useAppSelector(state => state.project.entities);
   const todos = useAppSelector(state => state.todo.entities);
   const todoEntity = useAppSelector(state => state.todo.entity);
@@ -40,12 +40,14 @@ export const TodoUpdate = () => {
   };
 
   useEffect(() => {
-    if (!isNew) {
+    if (isNew) {
+      dispatch(reset());
+    } else {
       dispatch(getEntity(id));
     }
 
     dispatch(getTags({}));
-    dispatch(getUserAttributes({}));
+    dispatch(getUsers({}));
     dispatch(getProjects({}));
     dispatch(getTodos({}));
   }, []);
@@ -71,7 +73,7 @@ export const TodoUpdate = () => {
       ...todoEntity,
       ...values,
       tags: mapIdList(values.tags),
-      creator: userAttributes.find(it => it.id.toString() === values.creator?.toString()),
+      creator: users.find(it => it.id.toString() === values.creator?.toString()),
       project: projects.find(it => it.id.toString() === values.project?.toString()),
       parent: todos.find(it => it.id.toString() === values.parent?.toString()),
       assignedUsers: mapIdList(values.assignedUsers),
@@ -189,10 +191,10 @@ export const TodoUpdate = () => {
               </ValidatedField>
               <ValidatedField id="todo-creator" name="creator" data-cy="creator" label="Creator" type="select">
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}
@@ -226,10 +228,10 @@ export const TodoUpdate = () => {
                 name="assignedUsers"
               >
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}

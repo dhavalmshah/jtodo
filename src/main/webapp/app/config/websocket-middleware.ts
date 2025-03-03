@@ -1,7 +1,6 @@
 import SockJS from 'sockjs-client';
-
-import Stomp from 'webstomp-client';
 import { Observable } from 'rxjs';
+import Stomp from 'webstomp-client';
 import { Storage } from 'react-jhipster';
 
 import { websocketActivityMessage } from 'app/modules/administration/administration.reducer';

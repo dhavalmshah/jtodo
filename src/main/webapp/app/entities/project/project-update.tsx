@@ -8,7 +8,7 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { getEntities as getUserAttributes } from 'app/entities/user-attributes/user-attributes.reducer';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { createEntity, getEntity, reset, updateEntity } from './project.reducer';
 
 export const ProjectUpdate = () => {
@@ -19,7 +19,7 @@ export const ProjectUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const userAttributes = useAppSelector(state => state.userAttributes.entities);
+  const users = useAppSelector(state => state.userManagement.users);
   const projectEntity = useAppSelector(state => state.project.entity);
   const loading = useAppSelector(state => state.project.loading);
   const updating = useAppSelector(state => state.project.updating);
@@ -36,7 +36,7 @@ export const ProjectUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getUserAttributes({}));
+    dispatch(getUsers({}));
   }, []);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export const ProjectUpdate = () => {
     const entity = {
       ...projectEntity,
       ...values,
-      owner: userAttributes.find(it => it.id.toString() === values.owner?.toString()),
+      owner: users.find(it => it.id.toString() === values.owner?.toString()),
       members: mapIdList(values.members),
     };
 
@@ -133,20 +133,27 @@ export const ProjectUpdate = () => {
               <ValidatedField label="Icon" id="project-icon" name="icon" data-cy="icon" type="text" />
               <ValidatedField id="project-owner" name="owner" data-cy="owner" label="Owner" type="select">
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField label="Members" id="project-members" data-cy="members" type="select" multiple name="members">
+              <ValidatedField
+                label="Project Members"
+                id="project-projectMembers"
+                data-cy="projectMembers"
+                type="select"
+                multiple
+                name="projectMembers"
+              >
                 <option value="" key="0" />
-                {userAttributes
-                  ? userAttributes.map(otherEntity => (
+                {users
+                  ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}

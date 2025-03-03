@@ -2,7 +2,7 @@ package in.thedevguys.domain;
 
 import static in.thedevguys.domain.CommentTestSamples.*;
 import static in.thedevguys.domain.TodoTestSamples.*;
-import static in.thedevguys.domain.UserAttributesTestSamples.*;
+import static in.thedevguys.domain.UserTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import in.thedevguys.web.rest.TestUtil;
@@ -27,7 +27,7 @@ class CommentTest {
     @Test
     void userTest() {
         Comment comment = getCommentRandomSampleGenerator();
-        UserAttributes userAttributesBack = getUserAttributesRandomSampleGenerator();
+        User userAttributesBack = getUserAttributesRandomSampleGenerator();
 
         comment.setUser(userAttributesBack);
         assertThat(comment.getUser()).isEqualTo(userAttributesBack);

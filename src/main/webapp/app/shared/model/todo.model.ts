@@ -1,25 +1,28 @@
 import dayjs from 'dayjs';
-import { ITag } from 'app/shared/model/tag.model';
-import { IUserAttributes } from 'app/shared/model/user-attributes.model';
 import { IProject } from 'app/shared/model/project.model';
-import { TodoStatus } from 'app/shared/model/enumerations/todo-status.model';
+import { IUser } from 'app/shared/model/user.model';
+import { ITag } from 'app/shared/model/tag.model';
+import { IAttachment } from 'app/shared/model/attachment.model';
+import { IComment } from 'app/shared/model/comment.model';
 import { Priority } from 'app/shared/model/enumerations/priority.model';
+import { TodoStatus } from 'app/shared/model/enumerations/todo-status.model';
 
 export interface ITodo {
   id?: number;
   title?: string;
-  description?: string | null;
-  dueDate?: dayjs.Dayjs | null;
+  description?: string;
   createdAt?: dayjs.Dayjs;
   updatedAt?: dayjs.Dayjs;
-  status?: keyof typeof TodoStatus;
+  startDate?: dayjs.Dayjs;
+  endDate?: dayjs.Dayjs;
   priority?: keyof typeof Priority;
-  pointsAwarded?: number | null;
-  tags?: ITag[] | null;
-  creator?: IUserAttributes | null;
+  status?: keyof typeof TodoStatus;
   project?: IProject | null;
-  parent?: ITodo | null;
-  assignedUsers?: IUserAttributes[] | null;
+  creator?: IUser | null;
+  tags?: ITag[] | null;
+  assignedUsers?: IUser[] | null;
+  attachments?: IAttachment[] | null;
+  comments?: IComment[] | null;
 }
 
 export const defaultValue: Readonly<ITodo> = {};

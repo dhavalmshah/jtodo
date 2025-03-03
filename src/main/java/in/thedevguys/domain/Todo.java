@@ -92,10 +92,10 @@ public class Todo implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -104,7 +104,7 @@ public class Todo implements Serializable {
         },
         allowSetters = true
     )
-    private UserAttributes creator;
+    private User creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "todos", "owner", "members" }, allowSetters = true)
@@ -121,10 +121,10 @@ public class Todo implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -133,7 +133,7 @@ public class Todo implements Serializable {
         },
         allowSetters = true
     )
-    private Set<UserAttributes> assignedUsers = new HashSet<>();
+    private Set<User> assignedUsers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -401,16 +401,16 @@ public class Todo implements Serializable {
         return this;
     }
 
-    public UserAttributes getCreator() {
+    public User getCreator() {
         return this.creator;
     }
 
-    public void setCreator(UserAttributes userAttributes) {
-        this.creator = userAttributes;
+    public void setCreator(User user) {
+        this.creator = user;
     }
 
-    public Todo creator(UserAttributes userAttributes) {
-        this.setCreator(userAttributes);
+    public Todo creator(User user) {
+        this.setCreator(user);
         return this;
     }
 
@@ -440,34 +440,34 @@ public class Todo implements Serializable {
         return this;
     }
 
-    public Set<UserAttributes> getAssignedUsers() {
+    public Set<User> getAssignedUsers() {
         return this.assignedUsers;
     }
 
-    public void setAssignedUsers(Set<UserAttributes> userAttributes) {
+    public void setAssignedUsers(Set<User> users) {
         if (this.assignedUsers != null) {
             this.assignedUsers.forEach(i -> i.removeAssignedTodos(this));
         }
-        if (userAttributes != null) {
-            userAttributes.forEach(i -> i.addAssignedTodos(this));
+        if (users != null) {
+            users.forEach(i -> i.addAssignedTodos(this));
         }
-        this.assignedUsers = userAttributes;
+        this.assignedUsers = users;
     }
 
-    public Todo assignedUsers(Set<UserAttributes> userAttributes) {
-        this.setAssignedUsers(userAttributes);
+    public Todo assignedUsers(Set<User> users) {
+        this.setAssignedUsers(users);
         return this;
     }
 
-    public Todo addAssignedUsers(UserAttributes userAttributes) {
-        this.assignedUsers.add(userAttributes);
-        userAttributes.getAssignedTodos().add(this);
+    public Todo addAssignedUsers(User user) {
+        this.assignedUsers.add(user);
+        user.getAssignedTodos().add(this);
         return this;
     }
 
-    public Todo removeAssignedUsers(UserAttributes userAttributes) {
-        this.assignedUsers.remove(userAttributes);
-        userAttributes.getAssignedTodos().remove(this);
+    public Todo removeAssignedUsers(User user) {
+        this.assignedUsers.remove(user);
+        user.getAssignedTodos().remove(this);
         return this;
     }
 

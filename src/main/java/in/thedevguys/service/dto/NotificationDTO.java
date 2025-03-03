@@ -26,7 +26,10 @@ public class NotificationDTO implements Serializable {
     @NotNull
     private ZonedDateTime createdAt;
 
-    private UserAttributesDTO user;
+    @NotNull
+    private ZonedDateTime updatedAt;
+
+    private AdminUserDTO user;
 
     private TodoDTO task;
 
@@ -70,11 +73,19 @@ public class NotificationDTO implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public UserAttributesDTO getUser() {
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public AdminUserDTO getUser() {
         return user;
     }
 
-    public void setUser(UserAttributesDTO user) {
+    public void setUser(AdminUserDTO user) {
         this.user = user;
     }
 
@@ -116,6 +127,7 @@ public class NotificationDTO implements Serializable {
             ", content='" + getContent() + "'" +
             ", read='" + getRead() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             ", user=" + getUser() +
             ", task=" + getTask() +
             "}";

@@ -52,10 +52,10 @@ public class Attachment implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -64,7 +64,7 @@ public class Attachment implements Serializable {
         },
         allowSetters = true
     )
-    private UserAttributes uploader;
+    private User uploader;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
@@ -166,15 +166,15 @@ public class Attachment implements Serializable {
         this.name = name;
     }
 
-    public UserAttributes getUploader() {
+    public User getUploader() {
         return this.uploader;
     }
 
-    public void setUploader(UserAttributes userAttributes) {
+    public void setUploader(User userAttributes) {
         this.uploader = userAttributes;
     }
 
-    public Attachment uploader(UserAttributes userAttributes) {
+    public Attachment uploader(User userAttributes) {
         this.setUploader(userAttributes);
         return this;
     }

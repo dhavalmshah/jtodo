@@ -40,10 +40,10 @@ public class Comment implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -52,7 +52,7 @@ public class Comment implements Serializable {
         },
         allowSetters = true
     )
-    private UserAttributes user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
@@ -115,16 +115,16 @@ public class Comment implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public UserAttributes getUser() {
+    public User getUser() {
         return this.user;
     }
 
-    public void setUser(UserAttributes userAttributes) {
-        this.user = userAttributes;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Comment user(UserAttributes userAttributes) {
-        this.setUser(userAttributes);
+    public Comment user(User user) {
+        this.setUser(user);
         return this;
     }
 

@@ -1,6 +1,7 @@
 package in.thedevguys.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import in.thedevguys.config.Constants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -92,6 +94,79 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+    @Column(name = "level")
+    private Long level = 0L;
+
+    @Column(name = "points")
+    private Long points = 0L;
+
+    @Column(name = "email_verified")
+    private ZonedDateTime emailVerified;
+
+    @Lob
+    @Column(name = "profile_image")
+    private byte[] profileImage;
+
+    @Column(name = "profile_image_content_type")
+    private String profileImageContentType;
+
+    @OneToMany(mappedBy = "user")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "user", "todo" }, allowSetters = true)
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "todos", "owner", "members" }, allowSetters = true)
+    private Set<Project> projectsOwned = new HashSet<>();
+
+    @OneToMany(mappedBy = "creator")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(
+        value = { "subTasks", "comments", "attachments", "notifications", "tags", "creator", "project", "parent", "assignedUsers" },
+        allowSetters = true
+    )
+    private Set<Todo> todosCreated = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "user", "task" }, allowSetters = true)
+    private Set<Notification> notifications = new HashSet<>();
+
+    @OneToMany(mappedBy = "uploader")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "uploader", "todo" }, allowSetters = true)
+    private Set<Attachment> attachments = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_user__assigned_todos",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "assigned_todos_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(
+        value = { "subTasks", "comments", "attachments", "notifications", "tags", "creator", "project", "parent", "assignedUsers" },
+        allowSetters = true
+    )
+    private Set<Todo> assignedTodos = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "rel_user__badges", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "badges_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "users" }, allowSetters = true)
+    private Set<Badge> badges = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_user__project_members",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "project_members_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "todos", "owner", "members" }, allowSetters = true)
+    private Set<Project> projectMembers = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -196,6 +271,161 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Long getLevel() {
+        return level;
+    }
+
+    public void setLevel(Long level) {
+        this.level = level;
+    }
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
+    }
+
+    public ZonedDateTime getEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(ZonedDateTime emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getProfileImageContentType() {
+        return profileImageContentType;
+    }
+
+    public void setProfileImageContentType(String profileImageContentType) {
+        this.profileImageContentType = profileImageContentType;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<Project> getProjectsOwned() {
+        return projectsOwned;
+    }
+
+    public void setProjectsOwned(Set<Project> projectsOwned) {
+        this.projectsOwned = projectsOwned;
+    }
+
+    public Set<Todo> getTodosCreated() {
+        return todosCreated;
+    }
+
+    public void setTodosCreated(Set<Todo> todosCreated) {
+        this.todosCreated = todosCreated;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public Set<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Set<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+    public Set<Todo> getAssignedTodos() {
+        return this.assignedTodos;
+    }
+
+    public void setAssignedTodos(Set<Todo> todos) {
+        this.assignedTodos = todos;
+    }
+
+    public User assignedTodos(Set<Todo> todos) {
+        this.setAssignedTodos(todos);
+        return this;
+    }
+
+    public User addAssignedTodos(Todo todo) {
+        this.assignedTodos.add(todo);
+        todo.getAssignedUsers().add(this);
+        return this;
+    }
+
+    public User removeAssignedTodos(Todo todo) {
+        this.assignedTodos.remove(todo);
+        todo.getAssignedUsers().remove(this);
+        return this;
+    }
+
+    public Set<Badge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Set<Badge> badges) {
+        this.badges = badges;
+    }
+
+    public User badges(Set<Badge> badges) {
+        this.setBadges(badges);
+        return this;
+    }
+
+    public User addBadges(Badge badge) {
+        this.badges.add(badge);
+        badge.getUsers().add(this);
+        return this;
+    }
+
+    public User removeBadges(Badge badge) {
+        this.badges.remove(badge);
+        badge.getUsers().remove(this);
+        return this;
+    }
+
+    public Set<Project> getProjectMembers() {
+        return projectMembers;
+    }
+
+    public void setProjectMembers(Set<Project> projectMembers) {
+        this.projectMembers = projectMembers;
+    }
+
+    public User projectMembers(Set<Project> projects) {
+        this.setProjectMembers(projects);
+        return this;
+    }
+
+    public User addProjectMembers(Project project) {
+        this.projectMembers.add(project);
+        project.getMembers().add(this);
+        return this;
+    }
+
+    public User removeProjectMembers(Project project) {
+        this.projectMembers.remove(project);
+        project.getMembers().remove(this);
+        return this;
     }
 
     @Override

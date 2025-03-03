@@ -30,9 +30,9 @@ public class ProjectDTO implements Serializable {
 
     private String icon;
 
-    private UserAttributesDTO owner;
+    private AdminUserDTO owner;
 
-    private Set<UserAttributesDTO> members = new HashSet<>();
+    private Set<AdminUserDTO> members = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -90,19 +90,19 @@ public class ProjectDTO implements Serializable {
         this.icon = icon;
     }
 
-    public UserAttributesDTO getOwner() {
+    public AdminUserDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(UserAttributesDTO owner) {
+    public void setOwner(AdminUserDTO owner) {
         this.owner = owner;
     }
 
-    public Set<UserAttributesDTO> getMembers() {
+    public Set<AdminUserDTO> getMembers() {
         return members;
     }
 
-    public void setMembers(Set<UserAttributesDTO> members) {
+    public void setMembers(Set<AdminUserDTO> members) {
         this.members = members;
     }
 

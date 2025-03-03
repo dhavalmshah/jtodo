@@ -3,9 +3,12 @@ package in.thedevguys.service.dto;
 import in.thedevguys.config.Constants;
 import in.thedevguys.domain.Authority;
 import in.thedevguys.domain.User;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,6 +54,23 @@ public class AdminUserDTO implements Serializable {
 
     private Set<String> authorities;
 
+    private ZonedDateTime emailVerified;
+
+    @Lob
+    private byte[] profileImage;
+
+    private String profileImageContentType;
+
+    private Long level;
+
+    private Long points;
+
+    private Set<TodoDTO> assignedTodos = new HashSet<>();
+
+    private Set<BadgeDTO> badges = new HashSet<>();
+
+    private Set<ProjectDTO> projectMembers = new HashSet<>();
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -69,6 +89,11 @@ public class AdminUserDTO implements Serializable {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        this.emailVerified = user.getEmailVerified();
+        this.profileImage = user.getProfileImage();
+        this.profileImageContentType = user.getProfileImageContentType();
+        this.level = user.getLevel();
+        this.points = user.getPoints();
     }
 
     public Long getId() {
@@ -175,6 +200,70 @@ public class AdminUserDTO implements Serializable {
         this.authorities = authorities;
     }
 
+    public ZonedDateTime getEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(ZonedDateTime emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getProfileImageContentType() {
+        return profileImageContentType;
+    }
+
+    public void setProfileImageContentType(String profileImageContentType) {
+        this.profileImageContentType = profileImageContentType;
+    }
+
+    public Long getLevel() {
+        return level;
+    }
+
+    public void setLevel(Long level) {
+        this.level = level;
+    }
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
+    }
+
+    public Set<TodoDTO> getAssignedTodos() {
+        return assignedTodos;
+    }
+
+    public void setAssignedTodos(Set<TodoDTO> assignedTodos) {
+        this.assignedTodos = assignedTodos;
+    }
+
+    public Set<BadgeDTO> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Set<BadgeDTO> badges) {
+        this.badges = badges;
+    }
+
+    public Set<ProjectDTO> getProjectMembers() {
+        return projectMembers;
+    }
+
+    public void setProjectMembers(Set<ProjectDTO> projectMembers) {
+        this.projectMembers = projectMembers;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
@@ -191,6 +280,9 @@ public class AdminUserDTO implements Serializable {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", emailVerified='" + emailVerified + '\'' +
+            ", level=" + level +
+            ", points=" + points +
             "}";
     }
 }

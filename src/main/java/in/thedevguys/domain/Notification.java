@@ -46,10 +46,10 @@ public class Notification implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = {
-            "user",
+            "authorities",
             "comments",
-            "projectsOwneds",
-            "todosCreateds",
+            "projectsOwned",
+            "todosCreated",
             "notifications",
             "attachments",
             "assignedTodos",
@@ -58,7 +58,7 @@ public class Notification implements Serializable {
         },
         allowSetters = true
     )
-    private UserAttributes user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
@@ -134,16 +134,16 @@ public class Notification implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public UserAttributes getUser() {
+    public User getUser() {
         return this.user;
     }
 
-    public void setUser(UserAttributes userAttributes) {
-        this.user = userAttributes;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Notification user(UserAttributes userAttributes) {
-        this.setUser(userAttributes);
+    public Notification user(User user) {
+        this.setUser(user);
         return this;
     }
 
